@@ -607,10 +607,17 @@ func (p *Parser) getPluginsFromAnnotations(namespace string, anns map[string]str
 
 	var plugins []kong.Plugin
 	for _, p := range pluginsInk8s {
-		plugins = append(plugins, kong.Plugin{
+		plugin := kong.Plugin{
 			Name:   kong.String(p.PluginName),
 			Config: kong.Configuration(p.Config).DeepCopy(),
-		})
+		}
+		if p.RunOn != "" {
+			plugin.RunOn = kong.String(p.RunOn)
+		}
+		if p.Disabled {
+			plugin.Enabled = kong.Bool(false)
+		}
+		plugins = append(plugins, plugin)
 	}
 	return plugins, nil
 }

@@ -42,6 +42,12 @@ spec:
           type: boolean
         config:
           type: object
+        run_on:
+          type: string
+          enum:
+          - first
+          - second
+          - all
 
 ---
 

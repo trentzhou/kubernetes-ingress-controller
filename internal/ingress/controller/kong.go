@@ -295,9 +295,13 @@ func (n *NGINXController) fillPlugin(plugin *state.Plugin) error {
 	}
 	plugin.Config = newConfig
 	// FIXME
-	// TODO it should be possible to override these from KongPlugin
-	plugin.RunOn = kong.String("first")
-	plugin.Enabled = kong.Bool(true)
+	// TODO it should be possible to override protocols from KongPlugin
+	if plugin.RunOn == nil {
+		plugin.RunOn = kong.String("first")
+	}
+	if plugin.Enabled == nil {
+		plugin.Enabled = kong.Bool(true)
+	}
 	return nil
 }
 
